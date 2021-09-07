@@ -1,4 +1,7 @@
 import * as winston from 'winston'
+import * as AWS from 'aws-sdk'
+
+const cloudwatch = new AWS.CloudWatch();
 
 /**
  * Create a logger instance to write log messages in JSON format.
@@ -14,4 +17,43 @@ export function createLogger(loggerName: string) {
       new winston.transports.Console()
     ]
   })
+}
+
+export async function createLatencyMetric(lambdaName: string, startTime: number, endTime: number) {
+  const totalTime = endTime - startTime
+  await cloudwatch.putMetricData({
+    MetricData: [
+      {
+        MetricName: 'Latency',
+        Dimensions: [
+          {
+            Name: 'LambdaName',
+            Value: lambdaName
+          }
+        ],
+        Unit: 'Milliseconds',
+        Value: totalTime
+      }
+    ],
+    Namespace: 'Udagram/Serverless'
+  }).promise()
+}
+
+export async function createSuccessMetric(lambdaName: string) {
+  await cloudwatch.putMetricData({
+    MetricData: [
+      {
+        MetricName: 'Success',
+        Dimensions: [
+          {
+            Name: 'LambdaName',
+            Value: lambdaName
+          }
+        ],
+        Unit: 'Count',
+        Value: 1
+      }
+    ],
+    Namespace: 'Udagram/Serverless'
+  }).promise()
 }

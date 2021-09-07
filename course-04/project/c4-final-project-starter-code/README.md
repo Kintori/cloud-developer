@@ -1,3 +1,10 @@
+# Project Submission Notes
+- AWS API URL: https://x89jiylpha.execute-api.us-east-1.amazonaws.com/dev
+- Screenshots of submission in submission-screenshots folder
+- Updated postman collection in 'My Updated Final Project.postman_collection.json' file
+
+
+
 # Serverless TODO
 
 To implement this project, you need to implement a simple TODO application using AWS Lambda and Serverless framework. Search for all comments starting with the `TODO:` in the code to find the placeholders that you need to implement.
